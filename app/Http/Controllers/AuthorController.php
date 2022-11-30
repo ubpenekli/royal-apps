@@ -24,4 +24,11 @@ class AuthorController extends Controller
 
         return view('dashboard.authors.single', compact('author'));
     }
+    public function delete($author_id)
+    {
+        $service = new Qtests();
+        $response = $service->removeAuthor($author_id);
+
+        return redirect()->back()->with('message', $response->message);
+    }
 }
