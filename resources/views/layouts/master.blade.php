@@ -35,10 +35,13 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('dashboard.authors.list') }}">{{ __('Authors') }}</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('dashboard.logout') }}">{{ __('Logout') }}</a>
+                        <li class="nav-item ms-auto">
+                            <a class="nav-link" href="{{ route('dashboard.books.create') }}">{{ __('Create Book') }}</a>
                         </li>
                     </ul>
+                    <span>Welcome, <span class="text-success">{{ session('user')->first_name }}
+                            {{ session('user')->last_name }}</span></span>
+                    <a class="btn btn-default" href="{{ route('dashboard.logout') }}">{{ __('Logout') }}</a>
                 </div>
             </div>
         </nav>
@@ -48,9 +51,9 @@
         @yield('main')
     </div>
 
-    <div class="footer">
+    <div class="footer position-absolute w-100 bg-light py-3" style="bottom:0;">
         <div class="container">
-            <p>Developed by <a href="https://ubpenekli.com">Ugur Batuhan Penekli</a> for <a
+            <p class="m-0">Developed by <a href="https://ubpenekli.com">Ugur Batuhan Penekli</a> for <a
                     href="https://royal-apps.io">Royal Apps</a>
                 PHP Test Assignment</p>
         </div>
@@ -62,6 +65,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.min.js"
         integrity="sha512-EKWWs1ZcA2ZY9lbLISPz8aGR2+L7JVYqBAYTq5AXgBkSjRSuQEGqWx8R1zAX16KdXPaCjOCaKE8MCpU0wcHlHA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    @if (session()->has('message'))
+        @push('js')
+            <script>
+                alert('{{ session('message') }}');
+            </script>
+        @endpush
+    @endif
     @stack('js')
 </body>
 

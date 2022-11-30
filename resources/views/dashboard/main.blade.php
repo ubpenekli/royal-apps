@@ -4,6 +4,6 @@
 @endsection
 @section('main')
     <div class="container">
-        Welcome {{ session('user')->first_name }} {{ session('user')->last_name }}
+        <h1>Welcome {{ session('user')->first_name }} {{ session('user')->last_name }}</h1>
     </div>
 @endsection

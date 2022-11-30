@@ -1,9 +1,10 @@
 @extends('layouts.master')
 @section('title')
-    Authors
+    {{ __('Authors') }}
 @endsection
 @section('main')
     <div class="container">
+        <h1>{{ __('Authors') }}</h1>
         <table class="table table-responsive table-striped">
             <thead>
                 <tr>
@@ -19,8 +20,8 @@
                     <tr>
                         <td>{{ $author->first_name }} {{ $author->last_name }}</td>
                         <td>{{ Str::studly($author->gender) }}</td>
-                        <td>{{ $author->first_name }}</td>
-                        <td>{{ $author->first_name }}</td>
+                        <td>{{ \Carbon\Carbon::parse($author->birthday)->format('F jS, Y') }}</td>
+                        <td>{{ $author->place_of_birth }}</td>
                         <td class="text-end">
                             <a href="{{ route('dashboard.authors.single', $author->id) }}" class="btn btn-primary"><i
                                     class="fas fa-eye"></i></a>

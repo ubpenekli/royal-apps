@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Login Page | Qtests PHP Assignment</title>
+    <title>{{ __('Login Page') }} | Qtests PHP Assignment</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -34,15 +34,15 @@
                         <div class="form-floating mb-3">
                             <input class="form-control" type="email" id="email" name="email"
                                 placeholder="me@ubpenekli.com" autocomplete="off">
-                            <label for="email">Email Address</label>
+                            <label for="email">{{ __('Email Address') }}</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input class="form-control type="password" id="password" name="password"
+                            <input class="form-control" type="password" id="password" name="password"
                                 placeholder="******" autocomplete="off" />
-                            <label for="password">Password</label>
+                            <label for="password">{{ __('Password') }}</label>
                         </div>
                         <div class="text-end">
-                            <button class="btn btn-primary ms-auto">Login</button>
+                            <button class="btn btn-primary ms-auto">{{ __('Login') }}</button>
                         </div>
                     </form>
                 </div>
@@ -68,10 +68,10 @@
         integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
     </script>
 
-    @if (session()->has('error'))
+    @if (session()->has('message'))
         @push('js')
             <script>
-                alert('{{ session('error') }}');
+                alert('{{ session('message') }}');
             </script>
         @endpush
     @endif
