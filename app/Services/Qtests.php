@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Storage;
 
 class Qtests
 {
@@ -30,13 +29,13 @@ class Qtests
             return (object) ([
                 'success' => true,
                 'token' => $response->object(),
-                'message' => 'You are logged in successfully.'
+                'message' => __('You are logged in successfully.')
             ]);
         } else {
             return (object) ([
                 'success' => false,
                 'token' => null,
-                'message' => 'Your credentials are not valid.',
+                'message' => __('Your credentials are not valid.'),
                 'data' => $response
             ]);
         }
@@ -62,7 +61,7 @@ class Qtests
         } else {
             return (object) ([
                 'success' => false,
-                'message' => 'Token is invalid.',
+                'message' => __('Token is invalid.'),
                 'data' => null,
             ]);
         }
@@ -81,8 +80,34 @@ class Qtests
         } else {
             return (object) ([
                 'success' => false,
-                'message' => 'Token is invalid.',
+                'message' => __('Token is invalid.'),
                 'data' => null,
+            ]);
+        }
+    }
+
+    public function storeBook($bookRequest)
+    {
+        $response = $this->http->withToken($this->token_key)->post('/books', [
+            'author' => [
+                'id' => $bookRequest->author_id,
+            ],
+            'title' => $bookRequest->title,
+            'release_date' => \Carbon\Carbon::parse($bookRequest->release_date)->toIso8601ZuluString(),
+            'description' => $bookRequest->description,
+            'isbn' => $bookRequest->isbn,
+            'format' => $bookRequest->format,
+            'number_of_pages' => (int)$bookRequest->number_of_pages
+        ]);
+        if ($response->ok()) {
+            return (object) ([
+                'success' => true,
+                'message' => __('Book created successfully.')
+            ]);
+        } else {
+            return (object) ([
+                'success' => false,
+                'message' => __('API error.')
             ]);
         }
     }
@@ -95,18 +120,18 @@ class Qtests
             if ($this->http->withToken($this->token_key)->delete('/authors/' . $author_id)->ok()) {
                 return (object) ([
                     'success' => true,
-                    'message' => null
+                    'message' => __('Author deleted successfully.')
                 ]);
             } else {
                 return (object) ([
                     'success' => false,
-                    'message' => 'Deleting action failed on API server.'
+                    'message' => __('API error.')
                 ]);
             }
         } else {
             return (object) ([
                 'success' => false,
-                'message' => 'Author cannot be deleted because the author has books.'
+                'message' => __('Author cannot be deleted because the author has books.')
             ]);
         }
     }
@@ -116,12 +141,12 @@ class Qtests
         if ($this->http->withToken($this->token_key)->delete('/books/' . $book_id)->ok()) {
             return (object) ([
                 'success' => true,
-                'message' => null
+                'message' => __('Book deleted successfully.')
             ]);
         } else {
             return (object) ([
                 'success' => false,
-                'message' => 'Deleting action failed on API server.'
+                'message' => __('API error.')
             ]);
         }
     }

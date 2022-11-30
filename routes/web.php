@@ -29,9 +29,9 @@ Route::name('dashboard.')->prefix('dashboard')->middleware('qtests')->group(func
     );
     Route::name('books.')->prefix('books')->group(
         function () {
-            Route::get('/create', 'App\\Http\\Controllers\\AuthorController@create')->name('create');
-            Route::post('/', 'App\\Http\\Controllers\\AuthorController@store')->name('store');
-            Route::delete('/{book_id}', 'App\\Http\\Controllers\\AuthorController@delete')->name('delete');
+            Route::get('/create', 'App\\Http\\Controllers\\BookController@create')->name('create');
+            Route::post('/', 'App\\Http\\Controllers\\BookController@store')->name('store');
+            Route::delete('/{author_id}', 'App\\Http\\Controllers\\BookController@delete')->name('delete');
         }
     );
 });
