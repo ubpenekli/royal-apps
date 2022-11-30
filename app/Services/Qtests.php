@@ -46,6 +46,46 @@ class Qtests
         $this->token_key = $token_key;
     }
 
+    public function me()
+    {
+        $response = $this->http->withToken($this->token_key)->get('/me');
+
+        if ($response->ok()) {
+            return (object) ([
+                'success' => true,
+                'message' => null,
+                'data' => $response->object()
+            ]);
+        } else {
+            return (object) ([
+                'success' => false,
+                'message' => __('Token is invalid.'),
+                'data' => null,
+            ]);
+        }
+    }
+
+    public function updateProfile($profileRequest)
+    {
+        $response = $this->http->withToken($this->token_key)->put('/users/' . $this->me()->data->id, [
+            'first_name' => $profileRequest->first_name,
+            'last_name' => $profileRequest->last_name,
+            'email' => $profileRequest->email,
+            'gender' => $profileRequest->gender
+        ]);
+        if ($response->ok()) {
+            return (object) ([
+                'success' => true,
+                'message' => __('Profile updated successfully.')
+            ]);
+        } else {
+            return (object) ([
+                'success' => false,
+                'message' => __('API error.') . $response->status()
+            ]);
+        }
+    }
+
     public function authors($page = 1)
     {
         $response = $this->http->withToken($this->token_key)->get('/authors', [
@@ -104,7 +144,7 @@ class Qtests
         } else {
             return (object) ([
                 'success' => false,
-                'message' => __('API error.') . json_encode($response->body())
+                'message' => __('API error.')
             ]);
         }
     }

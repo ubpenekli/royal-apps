@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\ProfileUpdateRequest;
 use App\Services\Qtests;
 
 class QtestsController extends Controller
@@ -41,6 +41,21 @@ class QtestsController extends Controller
     }
     public function dashboard()
     {
-        return view('dashboard.main');
+        $service = new Qtests();
+        $me = $service->me()->data;
+        return view('dashboard.main', compact('me'));
+    }
+    public function profile_update(ProfileUpdateRequest $profileUpdateRequest)
+    {
+        $service = new Qtests();
+        $response = $service->updateProfile($profileUpdateRequest->safe());
+        $me = $service->me()->data;
+
+        $sess_user = session('user');
+        $sess_user->first_name = $me->first_name;
+        $sess_user->last_name = $me->last_name;
+        session(['user' => $sess_user]);
+
+        return redirect()->back()->with('message', $response->message);
     }
 }
