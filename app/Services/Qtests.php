@@ -47,9 +47,12 @@ class Qtests
         $this->token_key = $token_key;
     }
 
-    public function authors()
+    public function authors($page = 1)
     {
-        $response = $this->http->withToken($this->token_key)->get('/authors');
+        $response = $this->http->withToken($this->token_key)->get('/authors', [
+            'page' => $page,
+            'limit' => 5
+        ]);
         if ($response->ok() && $response->status() === 200) {
             return (object) ([
                 'success' => true,
@@ -67,8 +70,9 @@ class Qtests
 
     public function author($author_id)
     {
-        $response = $this->http->withToken($this->token_key)->get('/author/' . $author_id);
-        if ($response->ok() && $response->status() === 200) {
+        $response = $this->http->withToken($this->token_key)->get('/authors/' . $author_id);
+
+        if ($response->ok()) {
             return (object) ([
                 'success' => true,
                 'message' => null,
@@ -88,7 +92,7 @@ class Qtests
         $author = $this->author($author_id);
         $books = (object) ($author['data']->books);
         if ($books->isNotEmpty()) {
-            if ($this->http->delete('/authors/' . $author_id)->ok()) {
+            if ($this->http->withToken($this->token_key)->delete('/authors/' . $author_id)->ok()) {
                 return (object) ([
                     'success' => true,
                     'message' => null
@@ -109,7 +113,7 @@ class Qtests
 
     public function removeBook($book_id)
     {
-        if ($this->http->delete('/books/' . $book_id)->ok()) {
+        if ($this->http->withToken($this->token_key)->delete('/books/' . $book_id)->ok()) {
             return (object) ([
                 'success' => true,
                 'message' => null
