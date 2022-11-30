@@ -5,7 +5,7 @@
 @section('main')
     <div class="container">
         <h1>{{ $author->first_name }} {{ $author->last_name }}</h1>
-        <table class="table">
+        <table class="table table-striped table-responsive">
             <thead>
                 <tr>
                     <th>{{ __('ISBN') }}</th>
