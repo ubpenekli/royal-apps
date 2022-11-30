@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', 'App\\Http\\Controllers\\QtestsController@login_view')->name('login_view');
+Route::post('/', 'App\\Http\\Controllers\\QtestsController@login')->name('login');
+
+Route::name('dashboard.')->prefix('dashboard')->middleware('qtests')->group(function () {
+    Route::get('/', 'App\\Http\\Controllers\\QtestsController@dashboard')->name('main');
+    Route::get('/logout', 'App\\Http\\Controllers\\QtestsController@logout')->name('logout');
 });
