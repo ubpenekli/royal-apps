@@ -13,6 +13,10 @@ class Qtests
     public function __construct()
     {
         $this->http = Http::baseUrl(config('qtests.base'));
+        $user = session('user');
+        if ($user !== null) {
+            $this->setToken($user->token_key);
+        }
     }
 
     public function getToken($email, $password)
