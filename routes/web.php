@@ -19,4 +19,19 @@ Route::post('/', 'App\\Http\\Controllers\\QtestsController@login')->name('login'
 Route::name('dashboard.')->prefix('dashboard')->middleware('qtests')->group(function () {
     Route::get('/', 'App\\Http\\Controllers\\QtestsController@dashboard')->name('main');
     Route::get('/logout', 'App\\Http\\Controllers\\QtestsController@logout')->name('logout');
+
+    Route::name('authors.')->prefix('/authors')->group(
+        function () {
+            Route::get('/', 'App\\Http\\Controllers\\AuthorController@list')->name('list');
+            Route::get('/{author_id}', 'App\\Http\\Controllers\\AuthorController@single')->name('single');
+            Route::delete('/{author_id}', 'App\\Http\\Controllers\\AuthorController@delete')->name('delete');
+        }
+    );
+    Route::name('books.')->prefix('books')->group(
+        function () {
+            Route::get('/create', 'App\\Http\\Controllers\\AuthorController@create')->name('create');
+            Route::post('/', 'App\\Http\\Controllers\\AuthorController@store')->name('store');
+            Route::delete('/{book_id}', 'App\\Http\\Controllers\\AuthorController@delete')->name('delete');
+        }
+    );
 });
