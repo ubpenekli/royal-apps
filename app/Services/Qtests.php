@@ -86,6 +86,29 @@ class Qtests
         }
     }
 
+    public function storeAuthor($authorRequest)
+    {
+        $response = $this->http->withToken($this->token_key)->post('/authors', [
+            'first_name' => $authorRequest->first_name,
+            'last_name' => $authorRequest->last_name,
+            'birthday' => \Carbon\Carbon::parse($authorRequest->birthday)->toIso8601ZuluString(),
+            'gender' => $authorRequest->gender == 'm' ? 'male' : ($authorRequest->gender == 'f' ? 'female' : ''),
+            'place_of_birth' => $authorRequest->place_of_birth,
+            'biography' => $authorRequest->biography
+        ]);
+        if ($response->ok()) {
+            return (object) ([
+                'success' => true,
+                'message' => __('Author created successfully.')
+            ]);
+        } else {
+            return (object) ([
+                'success' => false,
+                'message' => __('API error.') . json_encode($response->body())
+            ]);
+        }
+    }
+
     public function storeBook($bookRequest)
     {
         $response = $this->http->withToken($this->token_key)->post('/books', [
